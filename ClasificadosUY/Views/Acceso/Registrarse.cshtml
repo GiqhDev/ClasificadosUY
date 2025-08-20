@@ -1,0 +1,95 @@
+﻿@model ClasificadosUY.ViewModels.RegistroVM;
+
+@{
+  Layout = null;
+  var departamentos = new List<SelectListItem>
+    {
+        new SelectListItem { Value = "Artigas", Text = "Artigas" },
+        new SelectListItem { Value = "Canelones", Text = "Canelones" },
+        new SelectListItem { Value = "Cerro Largo", Text = "Cerro Largo" },
+        new SelectListItem { Value = "Colonia", Text = "Colonia" },
+        new SelectListItem { Value = "Durazno", Text = "Durazno" },
+        new SelectListItem { Value = "Flores", Text = "Flores" },
+        new SelectListItem { Value = "Florida", Text = "Florida" },
+        new SelectListItem { Value = "Lavalleja", Text = "Lavalleja" },
+        new SelectListItem { Value = "Maldonado", Text = "Maldonado" },
+        new SelectListItem { Value = "Montevideo", Text = "Montevideo" },
+        new SelectListItem { Value = "Paysandú", Text = "Paysandú" },
+        new SelectListItem { Value = "Río Negro", Text = "Río Negro" },
+        new SelectListItem { Value = "Rivera", Text = "Rivera" },
+        new SelectListItem { Value = "Rocha", Text = "Rocha" },
+        new SelectListItem { Value = "Salto", Text = "Salto" },
+        new SelectListItem { Value = "San José", Text = "San José" },
+        new SelectListItem { Value = "Soriano", Text = "Soriano" },
+        new SelectListItem { Value = "Tacuarembó", Text = "Tacuarembó" },
+        new SelectListItem { Value = "Treinta y Tres", Text = "Treinta y Tres" }
+    };
+
+  ViewBag.Departamentos = new SelectList(departamentos, "Value", "Text");
+
+  var privacidad = new List<SelectListItem>
+    {
+        new SelectListItem { Value = "Pública", Text = "Pública" },
+        new SelectListItem { Value = "Privada", Text = "Privada" }
+    };
+  ViewBag.Privacidad = new SelectList(privacidad, "Value", "Text");
+}
+
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registrarse</title>
+  <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+
+<body>
+  <div class="row mt-5 justify-content-center">
+    <div class="col-sm-4">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="text-center">Registrarse</h2>
+        </div>
+        <div class="card-body">
+          <p class="text-center">Por favor, complete el formulario para crear una cuenta.</p>
+          <form method="post" asp-action="Registrarse" asp-controller="Acceso">
+            <input type="text" class="form-control mb-3" placeholder="Nombre Completo" required asp-for="NombreCompleto" />
+            <input type="text" class="form-control mb-3" placeholder="Teléfono" required asp-for="Telefono" />
+            <input type="text" class="form-control mb-3" placeholder="Ej: Calle Libertad 1234, Pocitos" required asp-for="Direccion" />
+            <select class="form-select mb-3"                 
+                    asp-items="@ViewBag.Departamentos"
+                    asp-for="Departamento"
+                    required>
+              <option value="">Departamento</option>
+            </select>
+            <input type="email" class="form-control mb-3" placeholder="Correo" required asp-for="Correo" />
+            <input type="password" class="form-control mb-3" placeholder="Clave" required asp-for="Clave" />
+            <input type="password" class="form-control mb-3" placeholder="Confirmar Clave" required asp-for="ConfirmarClave" />
+            <select class="form-select mb-3"               
+                    asp-items="@ViewBag.Privacidad"
+                    asp-for="Privacidad"
+                    required>
+              <option value="">Privacidad</option>
+            </select>
+            <div class="d-grid gap-2 mb-3">
+              <button type="submit" class="btn btn-primary">Registrarse</button>
+            </div>
+            @if (ViewData["Mensaje"] != null)
+            {
+              <div class="alert alert-danger" role="alert">
+                @ViewData["Mensaje"]
+              </div>
+            }
+
+            <div class="text-center">
+              <a href="@Url.Action("Login", "Acceso")">¿Ya tienes una cuenta? Inicia sesión</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="~/lib/jquery/dist/jquery.min.js"></script>
+  <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

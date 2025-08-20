@@ -1,0 +1,47 @@
+﻿@model ClasificadosUY.ViewModels.LoginVM;
+
+@{
+  Layout = null;
+}
+
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+  <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+
+<body>
+  <div class="row mt-5 justify-content-center">
+    <div class="col-sm-4 col-md-4 col-lg-3 col-xl-3">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="text-center">Iniciar Sesion</h2>
+        </div>
+        <div class="card-body">
+          <form method="post" asp-action="Login" asp-controller="Acceso">
+            <input type="email" class="form-control mb-3" placeholder="Correo" required asp-for="Correo" />
+            <input type="password" class="form-control mb-3" placeholder="Clave" required asp-for="Clave" />
+            <div class="d-grid gap-2 mb-3">
+              <button type="submit" class="btn btn-primary">Iniciar Sesion</button>
+            </div>
+            @if (ViewData["Mensaje"] != null)
+            {
+              <div class="alert alert-danger" role="alert">
+                @ViewData["Mensaje"]
+              </div>
+            }
+
+            <div class="text-center">
+              <a href="@Url.Action("Registrarse", "Acceso")">¿No tienes una cuenta?. Registrate</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="~/lib/jquery/dist/jquery.min.js"></script>
+  <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

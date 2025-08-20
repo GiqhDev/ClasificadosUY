@@ -1,0 +1,62 @@
+﻿@model ClasificadosUY.ViewModels.AnuncioVM
+
+@{
+  ViewData["Title"] = "Publicar Anuncio";
+}
+
+<div class="container mt-4">
+  <div class="card shadow-lg p-4 border-0 rounded-3">
+    <h2 class="mb-4">Publicar Anuncio</h2>
+
+    <form asp-action="Publicar" method="post" asp-controller="Anuncio" enctype="multipart/form-data">
+      <div class="mb-3 form-group">
+        <label asp-for="Titulo" class="form-label"></label>
+        <input asp-for="Titulo" class="form-control" />
+        <span asp-validation-for="Titulo" class="text-danger"></span>
+      </div>
+
+      <div class="mb-3 form-group">
+        <label asp-for="Descripcion" class="form-label"></label>
+        <textarea asp-for="Descripcion" class="form-control"></textarea>
+        <span asp-validation-for="Descripcion" class="text-danger"></span>
+      </div>
+
+      <div class="mb-3 form-group">
+        <label asp-for="Precio" class="form-label"></label>
+        <input asp-for="Precio" type="number" step="0.01" class="form-control" />
+        <span asp-validation-for="Precio" class="text-danger"></span>
+      </div>     
+
+      <div class="mb-3 form-group">
+        <label class="form-label">Categoría</label>
+        <select asp-for="IdCategoria" class="form-select" asp-items="@(new SelectList(ViewBag.Categorias, "IdCategoria", "Nombre"))">
+          <option value="Nombre">-- Seleccione Categoría --</option>
+        </select>
+        <span asp-validation-for="IdCategoria" class="text-danger"></span>
+      </div>
+
+      <div class="mb-3 form-group">
+        <label class="form-label">Subcategoría</label>
+        <select asp-for="IdSubcategoria" class="form-select" asp-items="@(new SelectList(ViewBag.Subcategorias, "IdSubcategoria", "Nombre"))">
+          <option value="Nombre">-- Seleccione Subcategoría --</option>
+        </select>
+        <span asp-validation-for="IdSubcategoria" class="text-danger"></span>
+      </div>
+
+      <!-- Subir hasta 5 imágenes -->
+      <div class="mb-3 form-group">
+        <label class="form-label">Imágenes (máx 5)</label>
+        <input type="file" name="Imagenes" multiple class="form-control" accept="image/*"/>
+        <small class="text-muted">Puedes subir hasta 5 imágenes.</small>
+      </div>
+     
+      <button type="submit" class="btn btn-success" >Publicar</button>
+      <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Cancelar</a>
+    </form>
+  </div>
+</div>
+
+@section Scripts {
+  <partial name="_ValidationScriptsPartial" /> 
+}
+
