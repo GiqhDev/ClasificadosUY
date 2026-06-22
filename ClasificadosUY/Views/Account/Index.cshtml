@@ -1,0 +1,42 @@
+﻿@model IEnumerable<ClasificadosUY.Models.Anuncio>
+
+<a asp-controller="Account" asp-action="Editar" class="btn btn-outline-primary mb-3">
+  <i class="bi bi-person-lines-fill"></i> Editar mis datos
+</a>
+
+<h2>Mis Anuncios</h2>
+
+@if (!Model.Any())
+{
+  <div class="alert alert-info">Todavía no publicaste ningún anuncio.</div>
+}
+else
+{
+  <div class="row">
+    @foreach (var anuncio in Model)
+    {
+      <div class="col-md-4 mb-3">
+        <div class="card shadow-sm">
+          @if (!string.IsNullOrEmpty(anuncio.Imagen1))
+          {
+            <img src="data:image/jpeg;base64,@anuncio.Imagen1" class="card-img-top" style="height:200px; object-fit:cover;" />
+          }
+          else
+          {
+            <img src="~/images/no-image.png" class="card-img-top" style="height:200px; object-fit:cover;" />
+          }
+
+          <div class="card-body">
+            <h5 class="card-title">@anuncio.Titulo</h5>
+            <p class="card-text text-truncate">@anuncio.Descripcion</p>
+            <p><span class="badge bg-success">@anuncio.Estado</span></p>
+
+            <a asp-controller="Anuncio" asp-action="Detalle" asp-route-id="@anuncio.IdAnuncio" class="btn btn-primary btn-sm mt-0 mb-0 m-2"> <i class="bi bi-eye"></i> Ver Más...</a>
+            <a asp-controller="Anuncio" asp-action="Editar" asp-route-id="@anuncio.IdAnuncio" class="btn btn-warning btn-sm mt-0 mb-0 m-2"><i class="bi bi-pencil-square"></i> Editar</a>
+            <a asp-controller="Anuncio" asp-action="Eliminar" asp-route-id="@anuncio.IdAnuncio" class="btn btn-danger btn-sm mt-0 mb-0 m-2"><i class="bi bi-trash"></i> Eliminar</a>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+}

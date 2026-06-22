@@ -56,7 +56,7 @@
   <div class="row row-cols-1 row-cols-md-3 g-4">
     @foreach (var anuncio in Model)
     {
-      var destacado = anuncio.Destacado != null && anuncio.Destacado.FechaFin > DateTime.Now;
+      var destacado = anuncio.Destacado != null && anuncio.Destacado.FechaFin > DateTime.UtcNow;
       <div class="col">
         <div class="card h-100 shadow-sm border-@((destacado) ? "warning border-3" : "light")">
           <div class="position-relative">

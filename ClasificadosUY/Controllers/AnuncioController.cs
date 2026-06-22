@@ -4,7 +4,9 @@ using ClasificadosUY.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace ClasificadosUY.Controllers
 {
@@ -19,6 +21,7 @@ namespace ClasificadosUY.Controllers
     }
 
     [Authorize]
+    [HttpGet]
     public IActionResult Publicar()
     {
       ViewBag.Categorias = _context.Categorias.ToList();
@@ -28,6 +31,7 @@ namespace ClasificadosUY.Controllers
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize]
     public async Task<IActionResult> Publicar(AnuncioVM anuncioVM, List<IFormFile> Imagenes)
     {
       var anuncio = new Anuncio();
@@ -48,7 +52,7 @@ namespace ClasificadosUY.Controllers
         //    .Where(s => s.IdSubcategoria == anuncioVM.IdSubcategoria)
         //    .Select(s => s.Nombre)
         //    .FirstOrDefault() ?? string.Empty; // Obtener el nombre de la subcategoría
-        anuncio.FechaPublicacion = anuncioVM.FechaPublicacion; 
+        anuncio.FechaPublicacion = anuncioVM.FechaPublicacion;
 
         // Procesar imágenes
         for (int i = 0; i < Imagenes.Count && i < 5; i++)
@@ -90,6 +94,120 @@ namespace ClasificadosUY.Controllers
       {
         return NotFound();
       }
+
+      return View(anuncio);
+    }
+    [Authorize]
+    public async Task<IActionResult> Editar(int id)
+    {
+      var anuncio = await _context.Anuncios.FindAsync(id);
+      if (anuncio == null) return NotFound();
+
+      return View(anuncio);
+    }
+
+    [HttpPost]
+    [Authorize]
+    public async Task<IActionResult> Editar(EditarAnuncioVM anuncio, List<IFormFile> imagenes)
+    {
+      if (ModelState.IsValid)
+      {
+        var anuncioAEditar = await _context.Anuncios.FindAsync(anuncio.IdAnuncio);
+
+        anuncioAEditar.Titulo = anuncio.Titulo;
+        anuncioAEditar.Descripcion = anuncio.Descripcion;
+        anuncioAEditar.Precio = anuncio.Precio;
+        anuncioAEditar.Estado = anuncio.Estado;
+
+        foreach (var item in imagenes)
+        {
+          using var ms = new MemoryStream();
+          await item.CopyToAsync(ms);
+          var base64 = Convert.ToBase64String(ms.ToArray());
+
+          for (int i = 0; i < 5; i++)
+          {     
+            bool salir = false;
+            switch (i)
+            {
+              case 0:
+                if (string.IsNullOrEmpty(anuncioAEditar.Imagen1))
+                {
+                  anuncioAEditar.Imagen1 = base64;
+                  salir = true;
+                }
+                else
+                  continue;
+
+                break;
+              case 1:
+                if (string.IsNullOrEmpty(anuncioAEditar.Imagen2))
+                {
+                  anuncioAEditar.Imagen2 = base64;
+                  salir = true;
+                }
+                else
+                  continue;
+                break;
+              case 2:
+                if (string.IsNullOrEmpty(anuncioAEditar.Imagen3))
+                {
+                  anuncioAEditar.Imagen3 = base64;
+                  salir = true;
+                }
+                else
+                  continue;
+
+                break;
+              case 3:
+                if (string.IsNullOrEmpty(anuncioAEditar.Imagen4))
+                {
+                  anuncioAEditar.Imagen4 = base64;
+                  salir = true;
+                }
+                else
+                  continue;
+
+                break;
+              case 4:
+                if (string.IsNullOrEmpty(anuncioAEditar.Imagen5))
+                {
+                  anuncioAEditar.Imagen5 = base64;
+                  salir = true;
+                }
+                else
+                  continue;
+                break;
+            }
+
+            if (salir) break; // Salir del bucle si ya se ha asignado una imagen
+          }
+        }
+        _context.Anuncios.Update(anuncioAEditar);
+        await _context.SaveChangesAsync();
+        return RedirectToAction("Cuenta", "Account");
+      }
+      return View(anuncio);
+    }
+
+    [HttpPost, ActionName("Eliminar")]
+    [Authorize]
+    public async Task<IActionResult> EliminarConfirmado(int id)
+    {
+      var anuncio = await _context.Anuncios.FindAsync(id);
+      if (anuncio == null) return NotFound();
+
+      _context.Anuncios.Remove(anuncio);
+      await _context.SaveChangesAsync();
+      return RedirectToAction("Cuenta", "Account");
+    }
+
+    [HttpGet]
+    [Authorize]
+    public IActionResult Eliminar(int id)
+    {
+      var anuncio = _context.Anuncios.Find(id);
+      if (anuncio == null) return NotFound();
 
       return View(anuncio);
     }

@@ -1,0 +1,31 @@
+﻿@model ClasificadosUY.Models.Anuncio
+
+<h2>Eliminar Anuncio</h2>
+
+<div class="alert alert-danger">
+  ¿Estás seguro de que deseas eliminar este anuncio? Esta acción no se puede deshacer.
+</div>
+
+<div class="card shadow-sm mb-3">
+  @if (!string.IsNullOrEmpty(Model.Imagen1))
+  {
+    <img src="data:image/jpeg;base64,@Model.Imagen1" class="card-img-top" style="height:250px; object-fit:cover;" />
+  }
+  else
+  {
+    <img src="~/images/no-image.png" class="card-img-top" style="height:250px; object-fit:cover;" />
+  }
+
+  <div class="card-body">
+    <h5 class="card-title">@Model.Titulo</h5>
+    <p class="card-text">@Model.Descripcion</p>
+    <p><strong>Precio:</strong> @Model.Precio</p>
+    <p><span class="badge bg-info">@Model.Estado</span></p>
+  </div>
+</div>
+
+<form asp-action="Eliminar" method="post" asp-controller="Anuncio" enctype="multipart/form-data">
+  <input type="hidden" asp-for="IdAnuncio" />
+  <button type="submit" class="btn btn-danger">Eliminar</button>
+  <a href="javascript:history.back()" class="btn btn-secondary">Volver</a>
+</form>

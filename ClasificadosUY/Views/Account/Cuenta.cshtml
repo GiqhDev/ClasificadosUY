@@ -1,0 +1,55 @@
+﻿@model ClasificadosUY.ViewModels.CuentaVM
+
+
+
+<!-- Datos del usuario -->
+<div class="mb-4 p-3 border rounded bg-light">
+  <h2><i class="bi bi-person-circle"></i> @Model.Usuario.NombreCompleto</h2>
+  <p><strong>Email:</strong> @Model.Usuario.Correo | <strong>Teléfono:</strong> @Model.Usuario.Telefono | <strong>Dirección:</strong> @Model.Usuario.Direccion  | <strong>Departamento:</strong> @Model.Usuario.Departamento</p>
+
+
+  <a asp-controller="Account" asp-action="Editar" class="btn btn-outline-primary">
+    <i class="bi bi-person-lines-fill"></i> Editar mis datos
+  </a>
+</div>
+
+<!-- Anuncios -->
+<h2>Mis Anuncios</h2>
+
+@if (!Model.Anuncios.Any())
+{
+  <div class="alert alert-info">Todavía no publicaste ningún anuncio.</div>
+}
+else
+{
+  <div class="row">
+    @foreach (var anuncio in Model.Anuncios)
+    {
+      var valor = anuncio.Estado == "Activo" ? anuncio.Estado : "Inactivo";
+      var activo = valor == "Activo" ? "badge bg-success" : "badge bg-danger";
+
+      <div class="col-md-4 mb-3">
+        <div class="card shadow-sm">
+          @if (!string.IsNullOrEmpty(anuncio.Imagen1))
+          {
+            <img src="data:image/jpeg;base64,@anuncio.Imagen1" class="card-img-top" style="height:200px; object-fit:cover;" />
+          }
+          else
+          {
+            <img src="~/images/no-image.png" class="card-img-top" style="height:200px; object-fit:cover;" />
+          }
+
+          <div class="card-body">
+            <h5 class="card-title">@anuncio.Titulo</h5>
+            <p class="card-text text-truncate">@anuncio.Descripcion</p>
+            <p><span class="@activo">@valor</span></p>
+
+            <a asp-controller="Anuncio" asp-action="Detalle" asp-route-id="@anuncio.IdAnuncio" class="btn btn-primary btn-sm m-1"> <i class="bi bi-eye"></i> Ver</a>
+            <a asp-controller="Anuncio" asp-action="Editar" asp-route-id="@anuncio.IdAnuncio" class="btn btn-warning btn-sm m-1"><i class="bi bi-pencil-square"></i> Editar</a>
+            <a asp-controller="Anuncio" asp-action="Eliminar" asp-route-id="@anuncio.IdAnuncio" class="btn btn-danger btn-sm m-1"><i class="bi bi-trash"></i> Eliminar</a>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+}

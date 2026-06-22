@@ -1,0 +1,60 @@
+﻿@model ClasificadosUY.Models.Anuncio
+
+<h2>Editar Anuncio</h2>
+
+<form asp-action="Editar" method="post" enctype="multipart/form-data">
+  <input type="hidden" asp-for="IdAnuncio" />
+
+  <div class="mb-3">
+    <label asp-for="Titulo" class="form-label"></label>
+    <input asp-for="Titulo" class="form-control" />
+    <span asp-validation-for="Titulo" class="text-danger"></span>
+  </div>
+
+  <div class="mb-3">
+    <label asp-for="Descripcion" class="form-label"></label>
+    <textarea asp-for="Descripcion" class="form-control" rows="4"></textarea>
+    <span asp-validation-for="Descripcion" class="text-danger"></span>
+  </div>
+
+  <div class="mb-3">
+    <label asp-for="Precio" class="form-label"></label>
+    <input asp-for="Precio" class="form-control" />
+    <span asp-validation-for="Precio" class="text-danger"></span>
+  </div>
+
+  <div class="mb-3">
+    <label asp-for="Estado" class="form-label"></label>
+    <select asp-for="Estado" class="form-select">
+      <option value="Activo">Activo</option>
+      <option value="No Activo">No Activo</option>
+    </select>
+  </div>
+
+  <div class="mb-3 form-group">
+    <label>Imágenes</label>
+    <div class="row">
+      @for (int i = 1; i <= 5; i++)
+      {
+        var prop = $"Imagen{i}";
+        string? base64 = (string?)Model.GetType().GetProperty(prop)?.GetValue(Model);
+
+        <div class="col-md-2 text-center">
+          @if (!string.IsNullOrEmpty(base64))
+          {
+            <img src="data:image/jpeg;base64,@base64" class="img-thumbnail mb-2" style="height:80px; object-fit:cover;" />
+          }
+          else
+          {
+            <img src="~/images/no-image.png" class="img-thumbnail mb-2" style="height:80px; object-fit:cover;" />
+          }
+
+          <input type="file" name="Imagenes" class="form-control" accept="image/*" />
+        </div>
+      }
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-success">Guardar cambios</button>
+  <a href="javascript:history.back()" class="btn btn-secondary">Volver</a>
+</form>

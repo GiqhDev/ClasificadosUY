@@ -1,5 +1,4 @@
 ﻿@model ClasificadosUY.Models.Anuncio
-
 @{
   ViewData["Title"] = "Detalles del Anuncio";
   Layout = "_Layout";
@@ -12,35 +11,35 @@
       <div class="col-md-5">
         <!-- Carrusel de imágenes -->
         <div id="carousel-@Model.IdAnuncio" class="carousel slide" data-bs-ride="carousel">
-          <div class="carousel-inner">
+          <div class="carousel-inner mt-5">
             @if (!string.IsNullOrEmpty(Model.Imagen1))
             {
               <div class="carousel-item active">
-                <img src="data:image/jpeg;base64,@Model.Imagen1" class="d-block w-100 rounded-top" />
+                <img src="data:image/jpeg;base64,@Model.Imagen1" class="d-block w-100 h-100" />
               </div>
             }
             @if (!string.IsNullOrEmpty(Model.Imagen2))
             {
               <div class="carousel-item">
-                <img src="data:image/jpeg;base64,@Model.Imagen2" class="d-block w-100 rounded-top" />
+                <img src="data:image/jpeg;base64,@Model.Imagen2" class="d-block w-100 h-100" />
               </div>
             }
             @if (!string.IsNullOrEmpty(Model.Imagen3))
             {
               <div class="carousel-item">
-                <img src="data:image/jpeg;base64,@Model.Imagen3" class="d-block w-100 rounded-top" />
+                <img src="data:image/jpeg;base64,@Model.Imagen3" class="d-block w-100 h-100" />
               </div>
             }
             @if (!string.IsNullOrEmpty(Model.Imagen4))
             {
               <div class="carousel-item">
-                <img src="data:image/jpeg;base64,@Model.Imagen4" class="d-block w-100 rounded-top" />
+                <img src="data:image/jpeg;base64,@Model.Imagen4" class="d-block w-100 h-100" />
               </div>
             }
             @if (!string.IsNullOrEmpty(Model.Imagen5))
             {
               <div class="carousel-item">
-                <img src="data:image/jpeg;base64,@Model.Imagen5" class="d-block w-100 rounded-top" />
+                <img src="data:image/jpeg;base64,@Model.Imagen5" class="d-block w-100 h-100" />
               </div>
             }
           </div>
@@ -60,9 +59,11 @@
           <h4 class="text-success">$ @Model.Precio</h4>
           <p class="card-text">@Model.Descripcion</p>
           <hr />
-          <p><strong>Categoría:</strong> @Model.Categoria?.Nombre</p>
-          <p><strong>Subcategoría:</strong> @Model.Subcategoria?.Nombre</p>
+          <p><strong>Categoría - Subcategoría:</strong> @Model.Categoria?.Nombre - @Model.Subcategoria?.Nombre</p>
           <p><strong>Publicado por:</strong> @Model.Usuario?.NombreCompleto</p>
+          <p><strong>Telefono:</strong> @Model.Usuario?.Telefono</p>
+          <p><strong>Dirección:</strong> @Model.Usuario?.Direccion</p>
+          <p><strong>Departamento:</strong> @Model.Usuario?.Departamento</p>
           <p><strong>Fecha:</strong> @Model.FechaPublicacion.ToString("dd/MM/yyyy")</p>
           <p><strong>Estado:</strong> <strong class="@classActivo">@Model.Estado</strong></p>
           <a href="javascript:history.back()" class="btn btn-secondary">Volver</a>

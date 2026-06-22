@@ -1,7 +1,5 @@
 using ClasificadosUY.Data;
 using ClasificadosUY.Models;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
@@ -25,7 +23,7 @@ namespace ClasificadosUY.Controllers
       var anuncios = _context.Anuncios
           .Include(a => a.Categoria)
           .Include(a => a.Subcategoria)
-          .Include(a => a.Destacado)
+          .Include(a => a.Destacado)          
           .AsQueryable();
 
       // Filtrar por palabra clave
@@ -50,7 +48,7 @@ namespace ClasificadosUY.Controllers
           ? _context.Subcategorias.Where(s => s.Categoria.IdCategoria == IdCategoria.Value).ToList() 
           : _context.Subcategorias.ToList();
 
-      return View(anuncios.ToList());
+      return View(anuncios.Where(e=>e.Estado == "Activo").ToList());
     }
   
 

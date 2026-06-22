@@ -1,0 +1,58 @@
+﻿@model ClasificadosUY.Models.Usuario
+
+<h2>Editar Cuenta</h2>
+
+<form asp-action="Editar" method="post" asp-controller="Account">
+  <div class="mb-3">
+    <label asp-for="NombreCompleto" class="form-label"></label>
+    <input asp-for="NombreCompleto" class="form-control" />
+    <span asp-validation-for="NombreCompleto" class="text-danger"></span>
+  </div>
+
+  <div class="mb-3">
+    <label asp-for="Telefono" class="form-label"></label>
+    <input asp-for="Telefono" type="tel" class="form-control" />
+    <span asp-validation-for="Telefono" class="text-danger"></span>
+  </div>
+
+  <div class="mb-3">
+    <label asp-for="Direccion" class="form-label"></label>
+    <input asp-for="Direccion" type="text" class="form-control" />
+    <span asp-validation-for="Direccion" class="text-danger"></span>
+  </div>
+
+  <div class="mb-3">
+    <label asp-for="Departamento" class="form-label"></label>
+    <input asp-for="Departamento" type="text" class="form-control" />
+    <span asp-validation-for="Departamento" class="text-danger"></span>
+  </div>
+
+  <div class="mb-3">
+    <label asp-for="Correo" class="form-label"></label>
+    <input asp-for="Correo" type="email" class="form-control" />
+    <span asp-validation-for="Correo" class="text-danger"></span>
+  </div>
+
+  <div class="mb-3">
+    <label for="clave" class="form-label">Nueva Contraseña</label>
+    <input asp-for="Clave" type="password" class="form-control" />
+    <small class="text-muted">Deja vacío si no quieres cambiar la contraseña</small>
+  </div>
+
+  <div class="mb-3">
+    <label asp-for="Privacidad" class="form-label"></label>
+    <input asp-for="Privacidad" type="text" class="form-control" />
+    <span asp-validation-for="Privacidad" class="text-danger"></span>
+  </div>
+
+  @if (ViewData["Mensaje"] != null)
+  {
+    <div class="alert alert-danger" role="alert">
+      @ViewData["Mensaje"]
+    </div>
+  }
+
+  <button type="submit" class="btn btn-success">Guardar cambios</button>
+  <a asp-action="Cuenta" class="btn btn-secondary">Cancelar</a>
+</form>
+

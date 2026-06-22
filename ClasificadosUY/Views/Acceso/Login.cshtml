@@ -26,6 +26,9 @@
             <div class="d-grid gap-2 mb-3">
               <button type="submit" class="btn btn-primary">Iniciar Sesion</button>
             </div>
+            <div class="d-grid gap-2 mb-3">
+              <a href="@Url.Action("Index", "Home") " class="btn btn-secondary">Volver</a>
+            </div>
             @if (ViewData["Mensaje"] != null)
             {
               <div class="alert alert-danger" role="alert">
